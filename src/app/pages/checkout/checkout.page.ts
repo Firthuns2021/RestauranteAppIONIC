@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CartService} from '../../services/cart.service';
-import {RestauranteFormService} from "../../services/restaurante-form.service";
+import {RestauranteFormService} from '../../services/restaurante-form.service';
 
 @Component({
   selector: 'app-checkout',
@@ -52,6 +52,12 @@ export class CheckoutPage implements OnInit {
   // Variables de meses y años
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
+
+  // variables de paises
+  paises: {country: string}[] = [];
+  shippingAddressStates: string[]= [];
+  billingAddressStates: string[]= [];
+
   constructor(private formBuilder: FormBuilder,
               private cartService: CartService,
               private restauranteFormService: RestauranteFormService) { }
@@ -59,6 +65,7 @@ export class CheckoutPage implements OnInit {
   ngOnInit() {
     this.updateCartStatus();
     this.populateMonthsAndYears();
+    this.populateCountries();
   }
 
   onSubmit(): void {
@@ -70,10 +77,12 @@ export class CheckoutPage implements OnInit {
     if(event.target.checked) {
       this.checkoutFormGroup.controls.billingAddress.setValue(
         this.checkoutFormGroup.controls.shippingAddress.value);
+      this.billingAddressStates = this.shippingAddressStates;
     }
     // si no, borramos el grupo del billing
     else{
       this.checkoutFormGroup.controls.billingAddress.reset();
+      this.billingAddressStates = [];
     }
 
   }
@@ -93,6 +102,21 @@ export class CheckoutPage implements OnInit {
     }
     this.restauranteFormService.getCreditCardMonths(startMonth).subscribe(
       data => this.creditCardMonths = data
+    );
+  }
+
+  getStates(formGroupName: string){
+    const formGroup = this.checkoutFormGroup.get(formGroupName);
+    const paisname = formGroup?.value.pais;
+
+    this.restauranteFormService.getStates(paisname).subscribe(
+      data => {
+        if( formGroupName === 'shippingAddress'){
+          this.shippingAddressStates = data;
+        }else {
+          this.billingAddressStates = data;
+        }
+      }
     );
   }
 
@@ -116,4 +140,12 @@ export class CheckoutPage implements OnInit {
   }
 
 
+  private populateCountries() {
+    this.restauranteFormService.getCountries().subscribe(
+      data =>  this.paises = data   );
+  }
+
+  getState(shippingAddress: string) {
+
+  }
 }

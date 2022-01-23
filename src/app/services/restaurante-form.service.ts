@@ -1,12 +1,26 @@
 import { Injectable } from '@angular/core';
 import {Observable, of} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestauranteFormService {
 
-  constructor() { }
+  urlCountries = 'http://locahost:3000/api/countries';
+
+  constructor(private  http: HttpClient) {  }
+
+  getCountries(): Observable<{country: string}[]>{
+      return this.http.get<{country: string}[]>(this.urlCountries);
+  }
+
+  getStates(country: string): Observable<string[]>{
+    return this.http.get<{states: string[]}>(`${this.urlCountries}/country/${country}`)
+      .pipe(map( response => response.states));
+  }
+
   getCreditCardMonths(startMonth: number): Observable<number[]> {
     const data: number[] = [];
 

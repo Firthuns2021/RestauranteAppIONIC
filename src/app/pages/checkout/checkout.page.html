@@ -97,9 +97,10 @@
         <ion-col size="6">
           <ion-item>
             <ion-label position="floating">País</ion-label>
-            <ion-select type="text" formControlName="pais" required>
-              <ion-select-option>España</ion-select-option>
-              <ion-select-option>USA</ion-select-option>
+            <ion-select type="text" formControlName="pais" required
+                        (ionChange)="getState('shippingAddress')">
+              <ion-select-option *ngFor="let pais of paises" [value]="pais.country">{{ pais.country}}</ion-select-option>
+
             </ion-select>
           </ion-item>
         </ion-col>
@@ -107,8 +108,9 @@
           <ion-item>
             <ion-label position="floating">Provincia</ion-label>
             <ion-select type="text" formControlName="provincia" required>
-              <ion-select-option value="Valencia">Valencia</ion-select-option>
-              <ion-select-option value="Castellón">Castellón</ion-select-option>
+              <ion-select-option *ngFor="let state of shippingAddressStates"
+                [value]="state">{{ state }}</ion-select-option>
+
             </ion-select>
           </ion-item>
         </ion-col>
@@ -184,9 +186,9 @@
         <ion-col size="6">
           <ion-item>
             <ion-label position="floating">País</ion-label>
-            <ion-select type="text" formControlName="pais" required>
-              <ion-select-option>España</ion-select-option>
-              <ion-select-option>USA</ion-select-option>
+            <ion-select type="text" formControlName="pais" required (ionChange)="getState('billingAddress')">
+              <ion-select-option *ngFor="let pais of paises" [value]="pais.country">{{ pais.country}}</ion-select-option>
+
             </ion-select>
           </ion-item>
         </ion-col>
@@ -194,8 +196,9 @@
           <ion-item>
             <ion-label position="floating">Provincia</ion-label>
             <ion-select type="text" formControlName="provincia" required>
-              <ion-select-option value="Valencia">Valencia</ion-select-option>
-              <ion-select-option value="Castellón">Castellón</ion-select-option>
+              <ion-select-option *ngFor="let state of billingAddressStates"
+                                 [value]="state">{{ state }}</ion-select-option>
+
             </ion-select>
           </ion-item>
         </ion-col>
