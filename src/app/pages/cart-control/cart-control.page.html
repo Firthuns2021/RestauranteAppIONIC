@@ -1,0 +1,65 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">My order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Si no hay elementos, mostraremos una imagen de carrito vacío -->
+  <img *ngIf="cartItems.length === 0"
+    src="assets/images/empty_cart.png" alt="Empty Cart">
+
+  <ion-list *ngIf="cartItems.length > 0"
+    class="ion-margin ion-border">
+    <ion-item *ngFor="let item of cartItems">
+      <ion-label>
+        <h2>{{item.plato.nombre}}</h2>
+        <!-- Si tenemos extras, los mostramos -->
+        <div *ngIf="item.extras.length > 0">
+          <p>Extras: <small *ngFor="let extra of item.extras"
+            class="ion-color-medium">
+            {{extra.nombre}}: {{extra.coste | currency:'EUR'}}
+          </small>
+          </p>
+        </div>
+        <p><ion-badge color="success">
+          {{item.precioTotal | currency: 'EUR'}}
+        </ion-badge> </p>
+      </ion-label>
+      <ion-label slot="end">
+        <ion-label>Cantidad:</ion-label>
+        <ion-label>
+          <ion-icon size="large" color="primary"
+                    name="remove-circle-outline"
+                    (click)="reducirCantidad(item)"></ion-icon>
+          <ion-badge class="cantidad">{{item.cantidad}}</ion-badge>
+          <ion-icon size="large" color="primary"
+                    name="add-circle-outline"
+                    (click)="incrementarCantidad(item)"></ion-icon>
+          <ion-icon size="large" color="danger"
+                    name="trash-outline"
+                    (click)="borrarPlato(item)"></ion-icon>
+        </ion-label>
+        <p>Subtotal: {{item.precioTotal * item.cantidad | currency:'EUR'}}</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Una vez he mostrado los elementos del carrito
+     muestro el total en un item a parte-->
+    <ion-item>
+      <ion-label>
+        <h2>Total</h2>
+      </ion-label>
+      <ion-label slot="end">
+        {{totalPrice | currency:'EUR'}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <div class="ion-text-center" *ngIf="cartItems.length > 0">
+    <ion-button color="warning" routerLink="/checkout">Pagar</ion-button>
+  </div>
+</ion-content>

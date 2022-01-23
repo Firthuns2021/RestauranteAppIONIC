@@ -1,0 +1,16 @@
+<ion-menu side="start" menuId="menuCat" contentId="router">
+  <ion-header>
+    <ion-toolbar color="danger" class="ion-padding ion-text-center">
+      <ion-title>CATEGORÍAS</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-menu-toggle *ngFor="let cat of categorias">
+      <ion-card color="warning" routerLink="/cat/{{cat}}">
+        <ion-card-title class="ion-text-capitalize ion-padding">
+          {{ cat }}
+        </ion-card-title>
+      </ion-card>
+    </ion-menu-toggle>
+  </ion-content>
+</ion-menu>

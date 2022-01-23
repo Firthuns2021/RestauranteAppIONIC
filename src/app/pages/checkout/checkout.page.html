@@ -1,0 +1,286 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Checkout</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form [formGroup]="checkoutFormGroup" (submit)="onSubmit()">
+
+    <div formGroupName="cliente">
+      <ion-text color="warning">
+        <h4 class="ion-margin-bottom">Información del cliente</h4>
+      </ion-text>
+      <ion-row>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input type="text" formControlName="nombre" required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="8">
+          <ion-item>
+            <ion-label position="floating">Apellidos</ion-label>
+            <ion-input type="text" formControlName="apellidos" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">DNI</ion-label>
+            <ion-input type="text" formControlName="dni" required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">Teléfono</ion-label>
+            <ion-input type="text" formControlName="telefono" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="text" formControlName="email" required></ion-input>
+      </ion-item>
+    </div>
+
+    <!-- FIN DE CLIENTE - PRINCIPIO DE DIRECCION DE ENVÍO -->
+    <div class="ion-margin-top ion-padding-top" formGroupName="shippingAddress">
+      <ion-text color="warning">
+        <h4>Dirección de envío</h4>
+      </ion-text>
+      <ion-row>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="floating">Vía</ion-label>
+            <ion-select formControlName="tipoVia" required>
+              <ion-select-option>Calle</ion-select-option>
+              <ion-select-option>Avenida</ion-select-option>
+              <ion-select-option>Plaza</ion-select-option>
+              <ion-select-option>Carretera</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">Dirección</ion-label>
+            <ion-input type="text" formControlName="calle" required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="2">
+          <ion-item>
+            <ion-label position="floating">Nº</ion-label>
+            <ion-input type="text" formControlName="numero" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="9">
+          <ion-item>
+            <ion-label position="floating">Localidad</ion-label>
+            <ion-input type="text" formControlName="ciudad" required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="3">
+          <ion-item>
+            <ion-label position="floating">C.P.</ion-label>
+            <ion-input type="text" formControlName="cp" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">País</ion-label>
+            <ion-select type="text" formControlName="pais" required>
+              <ion-select-option>España</ion-select-option>
+              <ion-select-option>USA</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">Provincia</ion-label>
+            <ion-select type="text" formControlName="provincia" required>
+              <ion-select-option value="Valencia">Valencia</ion-select-option>
+              <ion-select-option value="Castellón">Castellón</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <ion-item-divider></ion-item-divider>
+    <div>
+      <ion-item>
+        <ion-checkbox slot="start" (ionChange)="copyShippingToBilling($event)"></ion-checkbox>
+        <ion-label class="ion-text-wrap">
+          <small>La dirección de envío es la misma que la de facturación</small>
+        </ion-label>
+      </ion-item>
+    </div>
+    <div>
+      <ion-item>
+        <ion-checkbox slot="start"></ion-checkbox>
+        <ion-label >
+          <small>Guardar esta dirección</small>
+        </ion-label>
+      </ion-item>
+    </div>
+
+    <ion-item-divider></ion-item-divider>
+
+    <!-- FIN DE LA DIRECCIÓN DE ENVÍO - COMIENZO DE LA DIRECCIÓN DE FACTURACIÓN -->
+
+    <div class="ion-margin-top ion-padding-top" formGroupName="billingAddress">
+      <ion-text color="warning">
+        <h4>Dirección de facturación</h4>
+      </ion-text>
+      <ion-row>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="floating">Vía</ion-label>
+            <ion-select formControlName="tipoVia" required>
+              <ion-select-option>Calle</ion-select-option>
+              <ion-select-option>Avenida</ion-select-option>
+              <ion-select-option>Plaza</ion-select-option>
+              <ion-select-option>Carretera</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">Dirección</ion-label>
+            <ion-input type="text" formControlName="calle" required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="2">
+          <ion-item>
+            <ion-label position="floating">Nº</ion-label>
+            <ion-input type="text" formControlName="numero" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="9">
+          <ion-item>
+            <ion-label position="floating">Localidad</ion-label>
+            <ion-input type="text" formControlName="ciudad" required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="3">
+          <ion-item>
+            <ion-label position="floating">C.P.</ion-label>
+            <ion-input type="text" formControlName="cp" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">País</ion-label>
+            <ion-select type="text" formControlName="pais" required>
+              <ion-select-option>España</ion-select-option>
+              <ion-select-option>USA</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">Provincia</ion-label>
+            <ion-select type="text" formControlName="provincia" required>
+              <ion-select-option value="Valencia">Valencia</ion-select-option>
+              <ion-select-option value="Castellón">Castellón</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <!-- FIN DE LA DIRECCIÓN DE FACTURACIÓN - COMIENZO DE LA TARJETA DE CRÉDITO -->
+
+    <div class="ion-margin-top ion-padding-top" formGroupName="creditCard">
+      <ion-text color="warning">
+        <h4 class="ion-margin-top ion-padding-top">Pago</h4>
+      </ion-text>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="floating">Tipo</ion-label>
+            <ion-select formControlName="cardType" required>
+              <ion-select-option value="VISA">VISA</ion-select-option>
+              <ion-select-option value="MasterCard">MasterCard</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="8">
+          <ion-item>
+            <ion-label position="floating">Nombre en la tarjeta</ion-label>
+            <ion-input formControlName="nameOnCard" type="text" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-item>
+        <ion-label position="floating">Número de la tarjeta</ion-label>
+        <ion-input formControlName="cardNumber" type="text" required></ion-input>
+      </ion-item>
+
+      <ion-row>
+        <ion-col size="5">
+          <ion-item>
+            <ion-label position="floating">Mes</ion-label>
+            <ion-select formControlName="expirationMonth" required>
+              <ion-select-option *ngFor="let month of creditCardMonths"
+                                 value="{{month}}">{{month}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="floating">Año</ion-label>
+            <ion-select (ionChange)="handleMonthsAndYears()"
+              formControlName="expirationYear" required>
+              <ion-select-option *ngFor="let year of creditCardYears"
+                                 value="{{year}}">{{year}}</ion-select-option>            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="3">
+          <ion-item>
+            <ion-label position="floating">CVV</ion-label>
+            <ion-input formControlName="securityCode" type="text" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <!-- FIN DE LA TARJETA DE CRÉDITO -->
+
+    <ion-item-divider></ion-item-divider>
+
+    <!-- Resumen del pedido -->
+    <div class="ion-margin ion-padding">
+      <ion-text color="warning">
+        <h3>Revisa tu pedido</h3>
+      </ion-text>
+      <p><b>Cantidad total: </b> {{totalQuantity}}</p>
+      <p><b>Envío: </b> Gratis</p>
+      <p><b>Precio total: </b> {{totalPrice | currency:'EUR'}}</p>
+    </div>
+
+    <ion-item-divider></ion-item-divider>
+
+    <div class="ion-text-center ion-margin">
+      <ion-button color="warning" type="submit">Pagar</ion-button>
+    </div>
+
+  </form>
+
+</ion-content>

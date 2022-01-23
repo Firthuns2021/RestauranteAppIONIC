@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Comentarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Listado de comentarios -->
+  <ion-card *ngFor="let comentario of rest.comentarios">
+    <ion-card-header>
+      <ion-card-title>
+        Email: {{comentario.email}}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Comentario: {{comentario.comentario}}<br>
+      Puntuación: <ion-badge color="success">
+      {{comentario.puntuacion}}
+    </ion-badge>
+    </ion-card-content>
+  </ion-card>
+  <!-- Ahora el card para nuevo comentario -->
+  <form>
+  <ion-card class="ion-padding">
+    <ion-card-title>Añadir un comentario</ion-card-title>
+    <ion-card-content>
+
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="text" required name="email"
+                   pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                   [(ngModel)]="comentario.email"></ion-input>
+
+        <ion-label position="floating">Comentario</ion-label>
+        <ion-input type="text" name="comentario"
+                   required minlength="2" [(ngModel)]="comentario.comentario"></ion-input>
+
+        <ion-label position="floating">Puntuación</ion-label>
+        <ion-input type="number" name="puntuacion"
+                   required minlength="1" [(ngModel)]="comentario.puntuacion"></ion-input>
+
+      </ion-card-content>
+  </ion-card>
+  <!-- Botones de salir -->
+  <div class="ion-text-center">
+    <ion-button color="danger" (click)="salir()">Cancelar</ion-button>
+    <ion-button color="success" (submit)="aceptar()">Aceptar</ion-button>
+  </div>
+  </form>
+</ion-content>

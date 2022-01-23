@@ -1,0 +1,64 @@
+<ion-header class="ion-no-border ion-padding-horizontal toolbar-background">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="" color="dark" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <app-cart-status routerLink="/cart-control"></app-cart-status>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <img src="{{restaurante.imgLogo}}" alt="{{restaurante.nombre}}">
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card class="ion-padding">
+    <ion-card-title class="ion-text-center">
+      {{restaurante.nombre}}
+    </ion-card-title>
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="4" class="ion-text-center">
+          <ion-icon size="large" name="chatbubble-ellipses-outline"
+                    (click)="abrirComentarios()">
+          </ion-icon>
+        </ion-col>
+        <ion-col size="4" class="ion-text-center">
+          <ion-icon size="large" name="calendar-number-outline"
+                    (click)="abrirHorarios()">
+          </ion-icon>
+        </ion-col>
+        <ion-col size="4" class="ion-text-center">
+          <ion-badge class="puntuacion" color="success" mode="ios">
+            {{media}}
+          </ion-badge>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-title color="medium" class="ion-padding">
+      {{restaurante.descripcion}}
+    </ion-card-title>
+  </ion-card>
+
+  <h2 class="ion-padding-start ion-padding-top">Platos</h2>
+
+  <ion-card class="ion-padding" (click)="mostrarExtras(plato)"
+            *ngFor="let plato of restaurante.platos">
+    <ion-card-title>{{plato.nombre}}</ion-card-title>
+    <ion-card-content>
+      <p>{{plato.descripcion}}</p>
+      <small>Precio: <span class="precio">
+        {{plato.precioBase | currency: 'EUR'}}
+      </span>
+      </small>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

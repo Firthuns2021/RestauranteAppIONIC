@@ -1,0 +1,52 @@
+<ion-header class="ion-no-border ion-margin-top">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="menuCat" color="warning"></ion-menu-button>
+    </ion-buttons>
+    <app-search-bar></app-search-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button expand="block" size="large"
+              color="warning" routerLink="/">
+    Mis restaurantes
+  </ion-button>
+
+<h2 *ngIf="categoria"
+    class="ion-text-capitalize ion-text-center ion-color-warning">
+  {{categoria}}</h2>
+  <div *ngIf="restaurantes.length > 0">
+  <ion-card *ngFor="let restaurante of restaurantes"
+  routerLink="/restaurante-detail/{{restaurante._id}}">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2">
+          <img src="{{restaurante.imgLogo}}" alt="...">
+        </ion-col>
+        <ion-col size="7">
+          <h5>{{ restaurante.nombre }}</h5>
+        </ion-col>
+        <ion-col size="3">
+          <div *ngFor="let diaAux of [0,1,2,3,4,5,6]">
+            <div *ngIf="diaActual === restaurante.horario[diaAux].dia">
+              <p>Apertura: {{ restaurante.horario[diaAux].apertura}}:00</p>
+              <p>Cierre: {{ restaurante.horario[diaAux].cierre}}:00</p>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  </div>
+  <!-- Si no hay restaurantes mostramos un mensaje de alerta -->
+  <div class="mt-50" *ngIf="restaurantes.length === 0">
+    <div class="ion-text-center">
+      <ion-badge color="danger">
+        <h3>Sin resultados</h3>
+      </ion-badge>
+    </div>
+  </div>
+
+
+</ion-content>
