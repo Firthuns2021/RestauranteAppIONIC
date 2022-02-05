@@ -16,9 +16,11 @@ export class RestauranteFormService {
       return this.http.get<{country: string}[]>(this.urlCountries);
   }
 
-  getStates(country: string): Observable<string[]>{
-    return this.http.get<{states: string[]}>(`${this.urlCountries}/country/${country}`)
-      .pipe(map( response => response.states));
+  getStates(country: string): Observable<string[]> {
+    return this.http.get<{states:
+        string[]}>(`${this.urlCountries}/states/${country}`).pipe(
+      map(response => response.states)
+    );
   }
 
   getCreditCardMonths(startMonth: number): Observable<number[]> {
@@ -47,5 +49,9 @@ export class RestauranteFormService {
     }
 
     return of(data);
+  }
+
+  getPaises(): Observable<{country: string}[]> {
+    return this.http.get<{country: string}[]>(this.urlCountries);
   }
 }

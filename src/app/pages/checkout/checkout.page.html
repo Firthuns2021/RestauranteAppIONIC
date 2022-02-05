@@ -45,7 +45,9 @@
       </ion-row>
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-input type="text" formControlName="email" required></ion-input>
+        <ion-input type="email"
+                   pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                   formControlName="email" required></ion-input>
       </ion-item>
     </div>
 
@@ -108,8 +110,9 @@
           <ion-item>
             <ion-label position="floating">Provincia</ion-label>
             <ion-select type="text" formControlName="provincia" required>
-              <ion-select-option *ngFor="let state of shippingAddressStates"
-                [value]="state">{{ state }}</ion-select-option>
+              <ion-select-option *ngFor="let provincia of
+shippingAddressProvincias"
+                                 value="{{provincia}}">{{provincia}}</ion-select-option>
 
             </ion-select>
           </ion-item>
@@ -195,10 +198,10 @@
         <ion-col size="6">
           <ion-item>
             <ion-label position="floating">Provincia</ion-label>
-            <ion-select type="text" formControlName="provincia" required>
-              <ion-select-option *ngFor="let state of billingAddressStates"
-                                 [value]="state">{{ state }}</ion-select-option>
-
+            <ion-select formControlName="provincia" required>
+              <ion-select-option *ngFor="let provincia of
+billingAddressProvincias"
+                                 value="{{provincia}}">{{provincia}}</ion-select-option>
             </ion-select>
           </ion-item>
         </ion-col>
@@ -232,8 +235,9 @@
 
 
       <ion-item>
-        <ion-label position="floating">Número de la tarjeta</ion-label>
-        <ion-input formControlName="cardNumber" type="text" required></ion-input>
+        <ion-label position="floating" >Número de la tarjeta</ion-label>
+        <ion-input formControlName="cardNumber" type="text"
+                   pattern="[0-9]{16}" required></ion-input>
       </ion-item>
 
       <ion-row>
@@ -258,7 +262,8 @@
         <ion-col size="3">
           <ion-item>
             <ion-label position="floating">CVV</ion-label>
-            <ion-input formControlName="securityCode" type="text" required></ion-input>
+            <ion-input formControlName="securityCode" pattern="[0-9]{3}"
+                       type="text" required></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
